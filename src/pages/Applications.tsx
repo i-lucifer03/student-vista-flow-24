@@ -113,8 +113,8 @@ const ApplicationsPage = () => {
       lead.email.toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesCountry = selectedCountry ? lead.country === selectedCountry : true;
-    const matchesVisaType = selectedVisaType ? lead.visaType === selectedVisaType : true;
-    const matchesStatus = selectedStatus ? lead.status === selectedStatus : true;
+    const matchesVisaType = selectedVisaType && selectedVisaType !== "all-types" ? lead.visaType === selectedVisaType : true;
+    const matchesStatus = selectedStatus && selectedStatus !== "all-statuses" ? lead.status === selectedStatus : true;
     
     return matchesSearch && matchesCountry && matchesVisaType && matchesStatus;
   });
@@ -159,7 +159,7 @@ const ApplicationsPage = () => {
                       <SelectValue placeholder="Visa Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Types</SelectItem>
+                      <SelectItem value="all-types">All Types</SelectItem>
                       <SelectItem value="education">Education</SelectItem>
                       <SelectItem value="work">Work</SelectItem>
                       <SelectItem value="visitor">Visitor</SelectItem>
@@ -171,7 +171,7 @@ const ApplicationsPage = () => {
                       <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Statuses</SelectItem>
+                      <SelectItem value="all-statuses">All Statuses</SelectItem>
                       <SelectItem value="pending">Pending</SelectItem>
                       <SelectItem value="in_progress">In Progress</SelectItem>
                       <SelectItem value="approved">Approved</SelectItem>
