@@ -14,6 +14,8 @@ const ApplicationsPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedVisaType, setSelectedVisaType] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -48,6 +50,10 @@ const ApplicationsPage = () => {
               setSelectedVisaType={setSelectedVisaType}
               selectedStatus={selectedStatus}
               setSelectedStatus={setSelectedStatus}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
             />
             
             <ApplicationsList 
@@ -55,6 +61,8 @@ const ApplicationsPage = () => {
               selectedCountry={selectedCountry}
               selectedVisaType={selectedVisaType}
               selectedStatus={selectedStatus}
+              startDate={startDate}
+              endDate={endDate}
             />
           </div>
         </main>

@@ -1,5 +1,6 @@
 
 import { useMemo } from "react";
+import { isWithinInterval, parseISO } from "date-fns";
 
 // Types
 export interface Lead {
@@ -17,6 +18,8 @@ interface UseLeadDataProps {
   selectedCountry: string;
   selectedVisaType: string;
   selectedStatus: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
 }
 
 // Mock data
@@ -100,9 +103,11 @@ export const useLeadData = ({
   selectedCountry,
   selectedVisaType,
   selectedStatus,
+  startDate,
+  endDate,
 }: UseLeadDataProps) => {
   
-  // Filter leads based on search query and filter selections
+  // Filter leads based on search query, filter selections, and date range
   const filteredLeads = useMemo(() => {
     return mockLeads.filter((lead) => {
       const matchesSearch = 
@@ -113,9 +118,16 @@ export const useLeadData = ({
       const matchesVisaType = selectedVisaType && selectedVisaType !== "all-types" ? lead.visaType === selectedVisaType : true;
       const matchesStatus = selectedStatus && selectedStatus !== "all-statuses" ? lead.status === selectedStatus : true;
       
-      return matchesSearch && matchesCountry && matchesVisaType && matchesStatus;
+      // Date range filtering
+      let matchesDateRange = true;
+      if (startDate && endDate) {
+        const leadDate = parseISO(lead.date.split(',')[0] + ' 2023'); // Convert string date to Date object
+        matchesDateRange = isWithinInterval(leadDate, { start: startDate, end: endDate });
+      }
+      
+      return matchesSearch && matchesCountry && matchesVisaType && matchesStatus && matchesDateRange;
     });
-  }, [searchQuery, selectedCountry, selectedVisaType, selectedStatus]);
+  }, [searchQuery, selectedCountry, selectedVisaType, selectedStatus, startDate, endDate]);
 
   return {
     leads: mockLeads,

@@ -1,5 +1,5 @@
 
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Calendar as CalendarIcon } from "lucide-react";
 import CountrySelector from "@/components/CountrySelector";
 import {
   Select,
@@ -9,6 +9,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface ApplicationsFiltersProps {
   searchQuery: string;
@@ -19,6 +28,10 @@ interface ApplicationsFiltersProps {
   setSelectedVisaType: (visaType: string) => void;
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+  endDate: Date | null;
+  setEndDate: (date: Date | null) => void;
 }
 
 const ApplicationsFilters = ({
@@ -30,7 +43,14 @@ const ApplicationsFilters = ({
   setSelectedVisaType,
   selectedStatus,
   setSelectedStatus,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
 }: ApplicationsFiltersProps) => {
+  const [isStartDateOpen, setIsStartDateOpen] = useState(false);
+  const [isEndDateOpen, setIsEndDateOpen] = useState(false);
+  
   return (
     <div className="bg-white rounded-lg shadow-low p-4 mb-6">
       <div className="flex flex-col md:flex-row gap-4">
@@ -46,6 +66,58 @@ const ApplicationsFilters = ({
         </div>
         
         <div className="flex flex-col md:flex-row gap-3">
+          {/* Start Date Picker */}
+          <Popover open={isStartDateOpen} onOpenChange={setIsStartDateOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full md:w-[180px] bg-white justify-start text-left">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? (
+                  format(startDate, "MMM d, yyyy")
+                ) : (
+                  <span>Start Date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={startDate || undefined}
+                onSelect={(date) => {
+                  setStartDate(date);
+                  setIsStartDateOpen(false);
+                }}
+                initialFocus
+                className={cn("p-3 pointer-events-auto")}
+              />
+            </PopoverContent>
+          </Popover>
+          
+          {/* End Date Picker */}
+          <Popover open={isEndDateOpen} onOpenChange={setIsEndDateOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full md:w-[180px] bg-white justify-start text-left">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDate ? (
+                  format(endDate, "MMM d, yyyy")
+                ) : (
+                  <span>End Date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={endDate || undefined}
+                onSelect={(date) => {
+                  setEndDate(date);
+                  setIsEndDateOpen(false);
+                }}
+                initialFocus
+                className={cn("p-3 pointer-events-auto")}
+              />
+            </PopoverContent>
+          </Popover>
+          
           <Select value={selectedVisaType} onValueChange={setSelectedVisaType}>
             <SelectTrigger className="w-full md:w-[180px] bg-white">
               <SelectValue placeholder="Visa Type" />

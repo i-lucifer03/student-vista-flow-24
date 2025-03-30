@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { Calendar as CalendarComponent, DayContentProps } from "@/components/ui/calendar";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -34,7 +34,7 @@ const getEventsForDate = (date: Date) => {
 };
 
 // Custom renderer for calendar days
-const CustomDay = (props: DayContentProps) => {
+const CustomDay = (props: React.ComponentProps<typeof CalendarComponent>["components"]["DayContent"]) => {
   const date = props.date;
   const dayEvents = getEventsForDate(date);
   
@@ -142,7 +142,7 @@ const CalendarPage = () => {
                   mode="single"
                   selected={date}
                   onSelect={(newDate) => newDate && setDate(newDate)}
-                  className="rounded-md border"
+                  className="rounded-md border pointer-events-auto"
                   components={{
                     DayContent: CustomDay
                   }}

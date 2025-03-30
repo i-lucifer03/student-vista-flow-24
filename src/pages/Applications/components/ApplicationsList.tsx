@@ -9,6 +9,8 @@ interface ApplicationsListProps {
   selectedCountry: string;
   selectedVisaType: string;
   selectedStatus: string;
+  startDate: Date | null;
+  endDate: Date | null;
 }
 
 const ApplicationsList = ({
@@ -16,12 +18,16 @@ const ApplicationsList = ({
   selectedCountry,
   selectedVisaType,
   selectedStatus,
+  startDate,
+  endDate,
 }: ApplicationsListProps) => {
   const { filteredLeads } = useLeadData({
     searchQuery,
     selectedCountry,
     selectedVisaType,
     selectedStatus,
+    startDate,
+    endDate,
   });
 
   return (
