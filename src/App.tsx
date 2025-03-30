@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Applications from "./pages/Applications";
+import Applications from "./pages/Applications"; // This import now points to index.tsx
 import Countries from "./pages/Countries";
 import Calendar from "./pages/Calendar";
 import NotFound from "./pages/NotFound";
